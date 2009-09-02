@@ -1,0 +1,109 @@
+legend {
+	font-weight: bold;
+}
+
+sub {
+	color: blue;
+	font-style: oblique;
+	border-bottom: 1px dotted;
+	font-size: 12px;
+}
+
+#loginset {
+	margin-left: auto;
+	margin-right: auto;
+	width: 274px;
+}
+
+#recoveryField {
+	margin-left: auto;
+	margin-right: auto;
+	width: 341px;
+}
+
+#registerset {
+	margin-left: auto;
+	margin-right: auto;
+	width: 492px;
+}
+
+#loginforms {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+#loginset span {
+	font-size: 0.8em;
+}
+
+#registerforms {
+	text-align: right;
+	margin-left: auto;
+	margin-right: auto;
+	width: 335px;
+}
+
+#logout {
+	bottom: 0.5em;
+	float: right;
+	position: relative;
+	text-align: right;
+}
+
+#droplist ul li {
+	width: 387px;
+	padding: 2px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	overflow: hidden;
+	border-left: 1px solid;
+	border-bottom: 1px dotted;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+#droplist ul li span {
+	float: left;
+	display: block;
+	overflow: hidden;
+}
+
+#droplist ul li span:first-child {
+	width: 350px;
+}
+
+#manageForms {
+	width: 508px;
+}
+
+#manageForms fieldset {
+	padding-bottom: 22px;
+}
+
+#manageForms span {
+	float: left;
+	display: block;
+	width: 295px;
+}
+
+.manageSubmit {
+	position: absolute;
+	left: 317px;
+}
+
+#junk {
+	display: none;
+}
+
+#controlPanel {
+	width: 296px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#controlPanel fieldset {
+	width: 265px;
+	margin-left: 1px;
+	padding-right: 16px;
+}
+

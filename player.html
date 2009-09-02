@@ -1,0 +1,272 @@
+<html>
+<head>
+<title>Drop Audio Player</title>
+<script type="text/javascript" src="http://drop.io/javascripts/prototype.js"></script>
+<script type="text/javascript" src="http://drop.io/javascripts/dropioApiClient.js"></script>
+<script type="text/javascript" src="http://drop.io/javascripts/swfobject2.1.js"></script>
+<link type="text/css" rel="stylesheet" media="screen" href="http://static-4.drop.io/stylesheets/global.css">
+</link>
+<link type="text/css" rel="stylesheet" media="screen" href="http://static-2.drop.io/stylesheets/bucket.css">
+</link>
+
+<script type="text/javascript">
+function rand (n) {
+	return (Math.floor(Math.random()*n+1));
+}
+
+function getDropinurl(name)
+{
+  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+  var regexS = "[\\?&]"+name+"=([^&#]*)";
+  var regex = new RegExp( regexS );
+  var results = regex.exec( window.location.href );
+  if( results == null )
+    return "";
+  else
+    return results[1];
+}
+
+var getdrop = getDropinurl('drop');
+</script>
+</head>
+
+<body>
+
+<div id="point"></div>
+
+<script type="text/javascript">
+
+$("point").insert('<u><h1>Drop '+getdrop+'</h1></u>');
+
+function receive_response(response,success)
+{
+	if(success)
+	{
+	var dropsongs = new Array();
+		for(i = 0; i< response.length; i++)
+		{
+			if(response[i]["type"] == "audio")
+			{
+				this_song = {};
+				this_song["url"]=response[i]["converted"];
+				this_song["title"]=response[i]["name"].truncate(25);
+				dropsongs.push(this_song);
+			}
+		}
+
+	Playlist.addSongs(dropsongs);
+	} else  {
+		alert("Error getting asset list:" + response.message);
+		}
+};
+</script>
+
+<div id="sidebar">
+<script>
+	Playlist = {
+		current_song: null,
+		has_loaded:false,
+		shuffle: false,
+		repeat: false,
+		
+		songs: [],
+		
+		
+		back: function() {
+			if (this.shuffle) {
+				next_index = rand(this.songs.length) - 1;
+				this.load(this.songs[next_index]);
+			}
+			if (this.songs.indexOf(this.current_song) == 0 && this.repeat) {
+				next_index = this.songs.length - 1;
+				this.load(this.songs[next_index]);	
+			}
+			else if (this.songs.indexOf(this.current_song) > 0) {
+				next_index = this.songs.indexOf(this.current_song) - 1;
+				this.load(this.songs[next_index]);
+			}
+		},
+		
+		load: function(song) {
+			this.has_loaded = true;
+			this.current_song = song;
+			
+			$("playlistTitle").innerHTML = song.title;
+			thisMovie("invisibleAudioPlayer").load(song.url);
+			
+			$("playlistPlay").hide();
+			$("playlistPause").show();
+		},
+		
+		play: function() {
+		  if(this.songs.length > 0) {
+		    if (this.has_loaded)
+  				thisMovie("invisibleAudioPlayer").play();
+  			else
+  				this.load(this.songs[0]);
+
+  			$("playlistPlay").hide();
+  			$("playlistPause").show();
+		  }
+		},
+		
+		pause: function() {
+			thisMovie("invisibleAudioPlayer").pause();
+			$("playlistPlay").show();
+			$("playlistPause").hide();
+		},
+		
+		next: function() {
+			if (this.shuffle) {
+				next_index = rand(this.songs.length) - 1;
+				this.load(this.songs[next_index]);
+			}
+			else if (this.songs.indexOf(this.current_song) == this.songs.length - 1 && this.repeat) {
+				this.load(this.songs[0]);
+			}
+			else if (this.songs.indexOf(this.current_song) < this.songs.length - 1) {
+				next_index = this.songs.indexOf(this.current_song) + 1;
+				this.load(this.songs[next_index]);
+			}
+		},
+		
+		toggleShuffle: function() {
+			if (this.shuffle) {
+				this.shuffle = false;
+				$("playlist_shuffle").src = "http://drop.io/images/playlist_shuffle_inactive.png";
+			}
+			else {
+				this.shuffle = true;
+				$("playlist_shuffle").src = "http://drop.io/images/playlist_shuffle.png";
+			}
+		},
+		
+		toggleRepeat: function() {
+			if (this.repeat) {
+				this.repeat = false;
+				$("playlist_repeat").src = "http://drop.io/images/playlist_repeat_inactive.png";
+			}
+			else {
+				this.repeat = true;
+				$("playlist_repeat").src = "http://drop.io/images/playlist_repeat.png";
+			}
+		},
+		
+		scrubTo: function(percentage) {
+			thisMovie("invisibleAudioPlayer").scrubTo(percentage);
+		},
+		
+	 	updatePlaylist: function(position, playPercentage, loadPercentage) {
+			$("playlistPosition").innerHTML = position;
+			$("playlistPlayProgress").style.width = parseInt(playPercentage * 100) + "%";
+			$("playlistLoadProgress").style.width = parseInt(loadPercentage * 100) + "%";
+		},
+
+		addSongs: function(dropsongs) {
+			this.songs=dropsongs;
+			if (Playlist.songs.length == 1)
+				$("playlistTitle").innerHTML = "There is 1 song in this drop";
+			else
+				$("playlistTitle").innerHTML = "There are " + Playlist.songs.length + " songs in this drop";
+		}
+			
+	}
+	
+	// setup the player on DOM load
+	document.observe("dom:loaded", function() {
+		var apiclient = new DropioApiClient("74dc19f40c65919f3dc77b220ab749a0738e180d","http://localhost/DropioJSClientXDReceiver.html");
+		apiclient.getAssetList({drop_name:getdrop},receive_response);
+		$("playlistControlls").style.visibility = "visible";
+
+	});
+	
+	// function for abstracting browser specific ways of grabbing flash movies
+	function thisMovie(movieName) {
+	    if (navigator.appName.indexOf("Microsoft") != -1) {
+	        return window[movieName]
+	    }
+	    else {
+	        return document[movieName]
+	    }
+	}
+
+</script>
+
+<div id="playlist" class="wrapperSidebar" style="width: 177px;">
+	<div style="float: right; margin-top:3px; cursor:pointer;">
+
+		<img alt="Playlist_shuffle_inactive" id="playlist_shuffle" onclick="Playlist.toggleShuffle()" src="http://static-2.drop.io/images/playlist_shuffle_inactive.png?1248988798" />
+	</div>
+	<div style="float: right; margin-top:3px; margin-right: 8px; cursor:pointer;">
+		<img alt="Playlist_repeat_inactive" id="playlist_repeat" onclick="Playlist.toggleRepeat()" src="http://static-3.drop.io/images/playlist_repeat_inactive.png?1248988798" />
+	</div>
+	<h5 style="border:none;">Drop Audio Player</h5>
+	<div id="window" style="width:162px; height:35px; background:url(http://drop.io/images/playlist_window.png); padding:8px; color:#444;">
+		<div id="playlistTitle" style="float:left; font-weight:bold; font-size:10px;"></div>
+
+		<div id="playlistPosition" style="float:right; font-size:10px;"></div>
+		<br style="clear:both;">
+		<div id="playlistProgressContainer" style="height:8px; border:solid 1px #929292; position:relative; margin-top:4px;">
+			<div id="playlistLoadProgress" style="position:absolute; top:0px; left:0px; height:8px; width:0%; background:#BBB; cursor:pointer;"></div>
+			<div id="playlistPlayProgress" style="position:absolute; top:0px; left:0px; height:8px; width:0%; background:#929292; cursor:pointer;"></div>
+		</div>
+	</div>
+	
+	<div id="playlistControlls" style="visibility:hidden; position:relative; height:35px;">
+		<a href="javascript:Playlist.back()" style="position:absolute; left:45px; top:9px;">
+
+		<img alt="Playlist_back_btn" src="http://static-3.drop.io/images/playlist_back_btn.png?1248988798" border=0 style="margin-right:5px;" />
+		</a>
+		<a href="javascript:Playlist.next()" style="position:absolute; left:95px; top:9px;">
+			<img alt="Playlist_next_btn" src="http://static-2.drop.io/images/playlist_next_btn.png?1248988798" border=0 style="margin-right:5px;" />
+		</a>
+		<a id="playlistPlay" style="position:absolute; left:70px; top:5px;" href="javascript:Playlist.play()">
+			<img alt="Playlist_play_btn" src="http://static-3.drop.io/images/playlist_play_btn.png?1248988798" border=0 style="margin-right:5px;" />
+		</a>
+		<a id="playlistPause" style="position:absolute; left:70px; top:5px; display:none;" href="javascript:Playlist.pause()">
+
+			<img alt="Playlist_pause_btn" src="http://static-2.drop.io/images/playlist_pause_btn.png?1248988798" border=0 style="margin-right:5px;" />
+		</a>
+	</div>
+
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+	           codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0"
+	           width="1" 
+	           height="1" 
+	           id="invisibleAudioPlayer" 
+	           align="middle"
+	           style="line-height:0px">
+	   <param name="allowScriptAccess" value="always" />
+	   <param name="movie" value="/swf/InvisibleAudioPlayer.swf" />
+	   <param name="quality" value="high" />
+  
+	   <param name="wmode" value="transparent" />
+
+	   <embed  src="/swf/InvisibleAudioPlayer.swf" 
+	           quality="high" 
+	           width="1" 
+	           height="1" 
+	           name="invisibleAudioPlayer" 
+	           align="middle" 
+	           wmode="transparent"
+	           allowScriptAccess="always" 
+	           type="application/x-shockwave-flash" 
+	           pluginspage="http://www.macromedia.com/go/getflashplayer" 
+	           swLiveConnect="true"/>
+	</object>
+
+	<img src="http://drop.io/images/playlist_playing.png" id="playlist_playing" style="display:none; vertical-align:middle; margin-right:4px;">
+</div>
+
+
+<script>
+// click on the porgress bar to scrub
+Event.observe("playlistProgressContainer", "click", function(e){
+	Playlist.scrubTo((e.pageX - $("playlistProgressContainer").cumulativeOffset().left) / $("playlistProgressContainer").getWidth());
+});
+</script>
+
+
+</div>
+
+</body></html>
