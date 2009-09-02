@@ -11,7 +11,7 @@ if(isset($_SESSION['user']))
 
 <div id='registerset'>
 <br>
-<h1>Drop Manager Registration</h1>
+<h1>myDrops Registration</h1>
 <div id='registerforms'>
 <form method="post" action="/createuser.php">
 E-mail: <input type="text" name="user" /><br>
