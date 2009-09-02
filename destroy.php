@@ -6,10 +6,12 @@ $manageid=$_SESSION['user_id'];
 $w=(trim($_GET['dropname']));
 $x=(trim($_GET['dropid']));
 
+include 'config.php';
+
 if((!isset($w)) && (!isset($y)))
 	header('Location: manage.php');
 
-$con=mysql_connect("localhost", "syeung", "huntman");
+$con=mysql_connect($mysqlserver, $mysqluser, $mysqlpass);
 if(!$con)
 {
 	die('Could not connect: '.mysql_error());
@@ -22,7 +24,8 @@ $y = $lines['token'];
 echo ($w.' '.$x.' ');
 
 $ch = curl_init();
-$data = array('_method' => 'delete', 'version' => '1.0', 'api_key' => '74dc19f40c65919f3dc77b220ab749a0738e180d');
+$data = array('_method' => 'delete', 'version' => '1.0');
+$data['api_key'] = $apiKey;
 $data['token'] = $y;
 $url='http://api.drop.io/drops/'.$w;
 curl_setopt($ch, CURLOPT_URL, $url);

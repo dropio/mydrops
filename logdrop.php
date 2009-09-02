@@ -4,10 +4,12 @@ if(!isset($_SESSION['user']))
 	header('Location: login.php');
 $manageid=$_SESSION['user_id'];
 
+include 'config.php';
+
 $drop = $_POST['dropname'];
 $dropid = $_POST['dropid'];
 
-$con = mysql_connect("localhost","syeung","huntman");
+$con = mysql_connect($mysqlserver,$mysqluser,$mysqlpass);
 if(!$con)
 	die('Could not connect: '.mysql_error());
 mysql_select_db("dropmanager");

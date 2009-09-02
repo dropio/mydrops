@@ -4,6 +4,7 @@ if(!isset($_SESSION['user']))
 	header('Location: login.php');
 include 'digest.php';
 include 'global.php';
+include 'config.php';
 
 $v=(trim(strtolower($_POST['currentPass'])));
 $w=(trim(strtolower($_POST['newPass'])));
@@ -12,7 +13,7 @@ $digestCheck=digest($v);
 $invalidPass1=(preg_match('/[^a-zA-Z0-9\s@.!@#$%^&*()-=_+\[\]<>,.?\/\{\}\|:;]/', $w));
 $invalidPass2=(preg_match('/[^a-zA-Z0-9\s@.!@#$%^&*()-=_+\[\]<>,.?\/\{\}\|:;]/', $x));
 
-$con = mysql_connect("localhost","syeung","huntman");
+$con = mysql_connect($mysqlserver,$mysqluser,$mysqlpass);
 if (!$con)
 {
 	die('Could not connect: '.mysql_error());

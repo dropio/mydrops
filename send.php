@@ -1,6 +1,7 @@
 <?php
 include 'global.php';
 include 'digest.php';
+include 'config.php';
 require_once "Mail.php";
 require_once "Mail/mime.php";
 
@@ -17,7 +18,7 @@ if($user)
 	{
 		if(($mailDomain) && (checkdnsrr($mailDomain,"MX")))
 		{
-			$con = mysql_connect("localhost","syeung","huntman");
+			$con = mysql_connect($mysqlserver,$mysqluser,$mysqlpass);
 			if(!$con)
 			{
 				die('Could not connect: '.mysql_error());

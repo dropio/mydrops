@@ -4,6 +4,7 @@ if(isset($_SESSION['user']))
 	header('location: manage.php');
 include "digest.php";
 include "global.php";
+include "config.php";
 
 $w=(trim(strtolower($_POST['passwd'])));
 $x=(trim(strtolower($_POST['passwd2'])));
@@ -17,7 +18,7 @@ $invalidPass2=(preg_match('/[^a-zA-Z0-9\s@.!@#$%^&*()-=_+\[\]<>,.?\/\{\}\|:;]/',
 $invalidUser2=(preg_match('/[^a-zA-Z0-9\s@.-_+]/', $z));
 $invalidUser1=(preg_match('/[^a-zA-Z0-9\s@.-_+]/', $y));
 
-$con = mysql_connect("localhost","syeung","huntman");
+$con = mysql_connect($mysqlserver,$mysqluser,$mysqlpass);
 
 list($emailName,$mailDomain)=explode("@",$y);
 list($emailName2,$mailDomain2)=explode("@",$z);

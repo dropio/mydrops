@@ -168,10 +168,10 @@ function createDrop() {
 
 </script>
 <link rel='stylesheet' type='text/css' href='drop.css'/>
-<title>Drop Manage Page</title>
+<title>myDrops Page</title>
 </head>
 <body>
-<h1>Drop Manage Page</h1>
+<h1>myDrops Page</h1>
 <div id='logout'>
 <?php echo $_SESSION['user']."<br>" ?>
 <a href='control.php'>Control Panel</a><br>
@@ -179,8 +179,9 @@ function createDrop() {
 </div>
 
 <?php
+include 'config.php';
 
-$con = mysql_connect("localhost","syeung","huntman");
+$con = mysql_connect($mysqlserver,$mysqluser,$mysqlpass);
 if (!$con)
         {
         die('Could not connect:'.mysql_error());

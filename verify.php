@@ -5,6 +5,7 @@ if(isset($_SESSION['user']))
 
 include 'digest.php';
 include 'global.php';
+include 'config.php';
 
 $user=(trim(strtolower(($_POST['user']))));
 $passwd=(trim(strtolower(($_POST['passwd']))));
@@ -13,7 +14,7 @@ $digest=digest($passwd);
 $invalidUser=(preg_match('/[^a-zA-Z0-9\s@.-_+]/', $user));
 if(!$invalidUser)
 {
-	$con = mysql_connect("localhost","syeung","huntman");
+	$con = mysql_connect($mysqlserver,$mysqluser,$mysqlpass);
 	if (!$con)
 	{
 	        die('Could not connect:'.mysql_error());

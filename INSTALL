@@ -1,0 +1,22 @@
+myDrops is a small web app to keep track of your Drops.
+To learn what a drop is, visit http://drop.io
+
+myDrops uses Drop.io's API (Application Programming Interface) alongside
+PHP, Javascript, and AJAX to manage Drops.
+Existing Drops can be added to one's myDrops account or created from scratch,
+as well as remove and destroyed via Drop.io's API.
+
+In order to install myDrops, you must have these installed:
+1) PHP version 5 or greater
+2) A MySQL database server
+
+First, create a SQL database named "dropmanager". Then, simply place the files
+in the correct server directory and execute "dropschema.sql" into your MySQL database.
+After that, copy config.php.default to config.php and edit it with your Drop.io API key and
+login details for your SQL database.
+
+The site should then be fully functional!
+
+
+
+myDrops was written in August 2009 by Sammy Yeung.

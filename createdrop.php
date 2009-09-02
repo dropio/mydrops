@@ -3,6 +3,8 @@ session_start();
 if(!isset($_SESSION['user']))
 	header('location: login.php');
 
+include 'config.php';
+
 $name=(trim($_POST['name']));
 $admin=(trim($_POST['admin_password']));
 $password=(trim($_POST['password']));
@@ -13,7 +15,8 @@ $gcc=($_POST['guests_can_comment']);
 $gcd=($_POST['guests_can_delete']);
 
 $ch = curl_init();
-$data = array('version' => '1.0', 'api_key' => '74dc19f40c65919f3dc77b220ab749a0738e180d');
+$data = array('version' => '1.0');
+$data['api_key'] = $apiKey;
 $data['name'] = $name;
 $data['admin_password'] = $admin;
 $data['password'] = $password;

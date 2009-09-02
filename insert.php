@@ -4,11 +4,13 @@ if(!isset($_SESSION['user']))
 	header('Location: login.php');
 $manageid=$_SESSION['user_id'];
 
+include 'config.php';
+
 $w=(trim($_POST['dropname']));
 $x=(trim($_POST['token']));
 if (($_POST['dropname'] != "") && ($_POST['token'] != "") && ($w) && ($x))
 {
-	$con=mysql_connect("localhost","syeung","huntman");
+	$con=mysql_connect($mysqlserver,$mysqluser,$mysqlpass);
 	if (!$con)
 	{
 		die('Could not connect: '.mysql_error());

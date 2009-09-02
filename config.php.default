@@ -1,0 +1,6 @@
+<?php
+$apiKey = "YOUR API KEY HERE";
+$mysqlserver = "YOUR SQL SERVER HERE";
+$mysqluser = "YOUR SQL USER HERE";
+$mysqlpass = "YOUR SQL PASS HERE";
+?>
