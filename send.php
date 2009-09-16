@@ -23,7 +23,7 @@ if($user)
 			{
 				die('Could not connect: '.mysql_error());
 			}
-			mysql_select_db('dropmanager');
+			mysql_select_db($mysqldb);
 			$selectUser =(mysql_query(sprintf("SELECT user FROM users WHERE user='%s'", mysql_real_escape_string($user))));
 			$checkUser = mysql_fetch_array($selectUser);
 			if($user == $checkUser['user'])

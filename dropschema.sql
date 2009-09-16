@@ -1,6 +1,6 @@
 -- MySQL dump 10.11
 --
--- Host: localhost    Database: dropmanager
+-- Host: localhost    Database: showmydrops-schema-version-1.0
 -- ------------------------------------------------------
 -- Server version	5.0.75-0ubuntu10.2-log
 

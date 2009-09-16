@@ -12,7 +12,7 @@ $dropid = $_POST['dropid'];
 $con = mysql_connect($mysqlserver,$mysqluser,$mysqlpass);
 if(!$con)
 	die('Could not connect: '.mysql_error());
-mysql_select_db("dropmanager");
+mysql_select_db($mysqldb);
 $select = (mysql_query(sprintf("SELECT token FROM drops WHERE name = '%s' AND id ='%s' AND user_id = '$manageid'", mysql_real_escape_string($drop), mysql_real_escape_string($dropid))));
 $grab = mysql_fetch_array($select, MYSQL_ASSOC);
 mysql_close($con);

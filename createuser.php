@@ -42,7 +42,7 @@ if((!$invalidPass1) && (!$invalidPass2))
 							{
 							        die('Could not connect:'.mysql_error());
 							}
-							mysql_select_db("dropmanager",$con);
+							mysql_select_db($mysqldb,$con);
 							$result = mysql_query(sprintf("SELECT user FROM users WHERE user='%s'", mysql_real_escape_string($y)));
 							$checkuser=mysql_fetch_array($result);
 							if ($y != $checkuser['user'])

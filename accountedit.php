@@ -18,7 +18,7 @@ if (!$con)
 {
 	die('Could not connect: '.mysql_error());
 }
-mysql_select_db("dropmanager",$con);
+mysql_select_db($mysqldb,$con);
 $result = mysql_query("SELECT pass FROM users WHERE user='$_SESSION[user]' AND user_id='$_SESSION[user_id]'");
 $passCheck=mysql_fetch_array($result, MYSQL_ASSOC);
 

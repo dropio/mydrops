@@ -10,7 +10,7 @@ In order to install myDrops, you must have these installed:
 1) PHP version 5 or greater
 2) A MySQL database server
 
-First, create a SQL database named "dropmanager". Then, simply place the files
+First, create a SQL database for the app. Then, simply place the files
 in the correct server directory and execute "dropschema.sql" into your MySQL database.
 After that, copy config.php.default to config.php and edit it with your Drop.io API key and
 login details for your SQL database.

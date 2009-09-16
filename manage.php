@@ -186,7 +186,7 @@ if (!$con)
         {
         die('Could not connect:'.mysql_error());
         }
-mysql_select_db("dropmanager",$con);
+mysql_select_db($mysqldb,$con);
 $result = mysql_query("SELECT id,name FROM drops WHERE user_id='$manageid' ORDER BY name ASC");
 
 $drops=array();

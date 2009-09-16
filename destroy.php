@@ -16,7 +16,7 @@ if(!$con)
 {
 	die('Could not connect: '.mysql_error());
 }
-mysql_select_db("dropmanager", $con);
+mysql_select_db($mysqldb, $con);
 $select=(mysql_query(sprintf("SELECT token FROM drops WHERE name = '%s' AND id = '%s' AND user_id = '$manageid'", mysql_real_escape_string($w), mysql_real_escape_string($x))));
 $lines=mysql_fetch_array($select, MYSQL_ASSOC);
 $y = $lines['token'];

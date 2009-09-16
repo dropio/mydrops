@@ -14,7 +14,7 @@ if(!$con)
 {
 	die('Could not connect: '.mysql_error());
 }
-mysql_select_db('dropmanager',$con);
+mysql_select_db($mysqldb,$con);
 $select = (mysql_query(sprintf("SELECT name FROM drops WHERE name='%s' AND user_id='$manageid'", mysql_real_escape_string($x))));
 $check = mysql_fetch_array($select, MYSQL_ASSOC);
 

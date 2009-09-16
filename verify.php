@@ -19,7 +19,7 @@ if(!$invalidUser)
 	{
 	        die('Could not connect:'.mysql_error());
 	}
-	mysql_select_db("dropmanager",$con);
+	mysql_select_db($mysqldb,$con);
 
 	$result=(mysql_query(sprintf("SELECT user_id,user,pass FROM users WHERE user='%s'", mysql_real_escape_string($user))));
 	$check=mysql_fetch_array($result, MYSQL_ASSOC);

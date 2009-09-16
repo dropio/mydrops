@@ -15,7 +15,7 @@ if (($_POST['dropname'] != "") && ($_POST['token'] != "") && ($w) && ($x))
 	{
 		die('Could not connect: '.mysql_error());
 	}
-	mysql_select_db("dropmanager",$con);
+	mysql_select_db($mysqldb,$con);
 	$insert=(sprintf("INSERT INTO drops (user_id,name,token) VALUES ('$manageid','%s','%s')", mysql_real_escape_string($w), mysql_real_escape_string($x)));
 
 	if (!mysql_query($insert))
